@@ -1,18 +1,26 @@
 package kafka
 
+import (
+	"EffectiveMobile/internal/service"
+)
+
 type Consumer interface {
-	Consume() error
+	Consume()
 	Close() error
 }
 
 type KafkaMessageProcessor struct {
-	consumer Consumer
+	Consumer
 }
 
-func NewKafkaMessageProcessor(consumer Consumer) *KafkaMessageProcessor {
-	return &KafkaMessageProcessor{consumer: consumer}
+func NewKafkaMessageProcessor(brokerAddr, topic string, service *service.Service) (*KafkaMessageProcessor, error) {
+	concumer, err := NewKafkaConsumer(brokerAddr, topic, service)
+	if err != nil {
+		return nil, err
+	}
+	return &KafkaMessageProcessor{Consumer: concumer}, nil
 }
 
 func (kmp *KafkaMessageProcessor) Start() {
-	go kmp.consumer.Consume()
+	go kmp.Consume()
 }

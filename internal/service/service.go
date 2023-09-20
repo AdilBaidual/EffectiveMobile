@@ -1,9 +1,17 @@
 package service
 
-import "EffectiveMobile/internal/repository"
+import (
+	"EffectiveMobile/entity"
+	"EffectiveMobile/internal/repository"
+)
 
 type User interface {
-	Test()
+	CreateUser(user entity.User) (int, error)
+	EnrichUser(fio entity.Fio) (int, error)
+	DeleteUser(userId int) error
+	UpdateUser(userId int, updatedUser entity.User) error
+	GetUserById(userId int) (entity.User, error)
+	GetUsers(options entity.Options) ([]entity.User, error)
 }
 
 type Service struct {

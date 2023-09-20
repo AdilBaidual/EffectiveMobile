@@ -1,8 +1,9 @@
-package EffectiveMobile
+package http
 
 import (
 	"context"
 	"net/http"
+	"sync"
 	"time"
 )
 
@@ -10,7 +11,8 @@ type Server struct {
 	httpServer *http.Server
 }
 
-func (s *Server) Run(port string, handler http.Handler) error {
+func (s *Server) Run(port string, handler http.Handler, wg sync.WaitGroup) error {
+	defer wg.Done()
 	s.httpServer = &http.Server{
 		Addr:           ":" + port,
 		Handler:        handler,

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"EffectiveMobile/internal/http"
 	"EffectiveMobile/internal/kafka"
 	"EffectiveMobile/internal/repository"
 	"EffectiveMobile/internal/service"
@@ -10,7 +11,7 @@ import (
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 	"os"
-	"time"
+	"sync"
 )
 
 func main() {
@@ -42,14 +43,24 @@ func main() {
 	repository := repository.NewRepository(db)
 	service := service.NewService(repository)
 
+	var wg sync.WaitGroup
+
 	messageProcessor, err := kafka.NewKafkaMessageProcessor(viper.GetString("brokerAddr"), "test", service)
 	if err != nil {
 		logrus.Fatalf("Kafka init error: ", err.Error())
 		panic(err)
 	}
-	messageProcessor.Start()
 
-	time.Sleep(time.Minute * 5)
+	wg.Add(1)
+	go messageProcessor.Start(wg)
+
+	httpHandlers := http.NewHandler(service)
+	httpServer := new(http.Server)
+
+	wg.Add(1)
+	go httpServer.Run(viper.GetString("port"), httpHandlers.InitRoute(), wg)
+
+	wg.Wait()
 }
 
 func initConfig() error {

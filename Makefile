@@ -5,7 +5,7 @@ migrations-up:
 	migrate -path ./migrations -database 'postgres://postgres:12345@localhost:5432/postgres?sslmode=disable' up
 
 migrations-down:
-	migrate -path ./migartions -database 'postgres://postgres:12345@localhost:5432/postgres?sslmode=disable' down
+	migrate -path ./migrations -database 'postgres://postgres:12345@localhost:5432/postgres?sslmode=disable' down
 
 run-server:
 	go run /cmd/main.go

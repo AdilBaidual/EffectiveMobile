@@ -1,0 +1,14 @@
+type User {
+    id: ID!
+    name: String!
+    surname: String!
+    patronymic: String
+    age: Int
+    gender: String
+    nationality: String
+}
+
+type Query {
+    getUsers(minAge: Int, maxAge: Int, gender: String): [User]
+    getUser(id: ID!): User
+}

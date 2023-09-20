@@ -67,7 +67,11 @@ func (kc *KafkaConsumer) Consume() {
 				continue
 			}
 			fmt.Println("Успешно ", data)
-			kc.service.Test()
+
+			_, err = kc.service.EnrichUser(data)
+			if err != nil {
+				logrus.Warn(err.Error())
+			}
 		}
 	}
 	kc.Close()

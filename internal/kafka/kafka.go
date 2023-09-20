@@ -2,6 +2,7 @@ package kafka
 
 import (
 	"EffectiveMobile/internal/service"
+	"sync"
 )
 
 type Consumer interface {
@@ -21,6 +22,7 @@ func NewKafkaMessageProcessor(brokerAddr, topic string, service *service.Service
 	return &KafkaMessageProcessor{Consumer: concumer}, nil
 }
 
-func (kmp *KafkaMessageProcessor) Start() {
-	go kmp.Consume()
+func (kmp *KafkaMessageProcessor) Start(wg sync.WaitGroup) {
+	defer wg.Done()
+	kmp.Consume()
 }

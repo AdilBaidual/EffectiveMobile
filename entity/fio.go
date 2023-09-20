@@ -1,4 +1,4 @@
-package kafka
+package entity
 
 type Fio struct {
 	Name       string `json:"name"`

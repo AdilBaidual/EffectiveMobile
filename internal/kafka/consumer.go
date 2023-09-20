@@ -1,6 +1,7 @@
 package kafka
 
 import (
+	"EffectiveMobile/entity"
 	"EffectiveMobile/internal/service"
 	"encoding/json"
 	"errors"
@@ -12,7 +13,7 @@ import (
 )
 
 type FioResponse struct {
-	Fio
+	entity.Fio
 	Message string `json:"message"`
 }
 
@@ -44,7 +45,7 @@ func (kc *KafkaConsumer) Consume() {
 	for {
 		msg, err := kc.consumer.ReadMessage(time.Second)
 		if err == nil {
-			var data Fio
+			var data entity.Fio
 			var flag bool
 
 			err := json.Unmarshal(msg.Value, &data)
@@ -76,7 +77,7 @@ func (kc *KafkaConsumer) Close() error {
 	return kc.consumer.Close()
 }
 
-func produceToFailedTopic(data Fio, errorMessage string) error {
+func produceToFailedTopic(data entity.Fio, errorMessage string) error {
 	config := &kafka.ConfigMap{
 		"bootstrap.servers": viper.GetString("brokerAddr"),
 	}

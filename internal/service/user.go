@@ -186,7 +186,6 @@ func (s *UserService) DeleteUser(userId int) error {
 }
 
 func (s *UserService) UpdateUser(userId int, updatedUser entity.User) error {
-	//TODO: CONVERT OLD USER TO NEW USER
 	user, err := s.repo.GetById(userId)
 	if err != nil {
 		return err

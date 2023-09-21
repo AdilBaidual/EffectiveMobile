@@ -3,6 +3,7 @@ module EffectiveMobile
 go 1.19
 
 require (
+	github.com/99designs/gqlgen v0.17.38
 	github.com/confluentinc/confluent-kafka-go/v2 v2.2.0
 	github.com/gin-gonic/gin v1.9.1
 	github.com/jmoiron/sqlx v1.3.5
@@ -10,10 +11,10 @@ require (
 	github.com/lib/pq v1.10.9
 	github.com/sirupsen/logrus v1.8.1
 	github.com/spf13/viper v1.16.0
+	github.com/vektah/gqlparser/v2 v2.5.10
 )
 
 require (
-	github.com/99designs/gqlgen v0.17.38 // indirect
 	github.com/agnivade/levenshtein v1.1.1 // indirect
 	github.com/bytedance/sonic v1.10.1 // indirect
 	github.com/chenzhuoyu/base64x v0.0.0-20230717121745-296ad89f973d // indirect
@@ -27,6 +28,8 @@ require (
 	github.com/go-playground/validator/v10 v10.15.4 // indirect
 	github.com/goccy/go-json v0.10.2 // indirect
 	github.com/google/uuid v1.3.1 // indirect
+	github.com/gorilla/websocket v1.5.0 // indirect
+	github.com/hashicorp/golang-lru/v2 v2.0.3 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.5 // indirect
@@ -46,7 +49,6 @@ require (
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
 	github.com/ugorji/go/codec v1.2.11 // indirect
 	github.com/urfave/cli/v2 v2.25.7 // indirect
-	github.com/vektah/gqlparser/v2 v2.5.10 // indirect
 	github.com/xrash/smetrics v0.0.0-20201216005158-039620a65673 // indirect
 	golang.org/x/arch v0.5.0 // indirect
 	golang.org/x/crypto v0.13.0 // indirect

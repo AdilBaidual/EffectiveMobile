@@ -1,10 +1,8 @@
 package main
 
 import (
-	"EffectiveMobile/internal/http"
-	"EffectiveMobile/internal/kafka"
+	"EffectiveMobile/internal/graph"
 	"EffectiveMobile/internal/repository"
-	"EffectiveMobile/internal/service"
 	"fmt"
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
@@ -41,24 +39,30 @@ func main() {
 	}
 
 	repository := repository.NewRepository(db)
-	service := service.NewService(repository)
+	//service := service.NewService(repository)
 
 	var wg sync.WaitGroup
 
-	messageProcessor, err := kafka.NewKafkaMessageProcessor(viper.GetString("brokerAddr"), "test", service)
-	if err != nil {
-		logrus.Fatalf("Kafka init error: ", err.Error())
-		panic(err)
-	}
+	//messageProcessor, err := kafka.NewKafkaMessageProcessor(viper.GetString("brokerAddr"), "test", service)
+	//if err != nil {
+	//	logrus.Fatalf("Kafka init error: ", err.Error())
+	//	panic(err)
+	//}
+
+	//wg.Add(1)
+	//go messageProcessor.Start(wg)
+	//
+	//httpHandlers := http.NewHandler(service)
+	//httpServer := new(http.Server)
+	//
+	//wg.Add(1)
+	//go httpServer.Run(viper.GetString("port"), httpHandlers.InitRoute(), wg)
+
+	resolver := graph.NewResolver(repository)
+	gqlServer := new(graph.Server)
 
 	wg.Add(1)
-	go messageProcessor.Start(wg)
-
-	httpHandlers := http.NewHandler(service)
-	httpServer := new(http.Server)
-
-	wg.Add(1)
-	go httpServer.Run(viper.GetString("port"), httpHandlers.InitRoute(), wg)
+	go gqlServer.Run(resolver, wg)
 
 	wg.Wait()
 }

@@ -1,0 +1,38 @@
+type User {
+  id: ID!
+  name: String!
+  surname: String!
+  patronymic: String
+  age: Int
+  gender: String
+  nationality: String
+}
+
+type Query {
+  getUsers(minAge: Int, maxAge: Int, age: Int, page: Int, perPage: Int, gender: String): [User]
+  getUser(id: ID!): User
+}
+
+type Mutation {
+  createUser(input: CreateUserInput!): ID
+  updateUser(id: ID!, input: UpdateUserInput!): User
+  deleteUser(id: ID!): ID
+}
+
+input CreateUserInput {
+  name: String!
+  surname: String!
+  patronymic: String
+  age: Int
+  gender: String
+  nationality: String
+}
+
+input UpdateUserInput {
+  name: String
+  surname: String
+  patronymic: String
+  age: Int
+  gender: String
+  nationality: String
+}

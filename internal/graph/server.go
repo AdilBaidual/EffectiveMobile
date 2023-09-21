@@ -16,7 +16,7 @@ type Server struct {
 
 const defaultPort = "8080"
 
-func (s *Server) Run(resolver *Resolver, wg sync.WaitGroup) {
+func (s *Server) Run(resolver *Resolver, wg *sync.WaitGroup) {
 	defer wg.Done()
 	port := os.Getenv("PORT")
 	if port == "" {

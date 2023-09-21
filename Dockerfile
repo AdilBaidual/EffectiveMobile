@@ -5,9 +5,14 @@ ENV GOPATH=/
 
 COPY ./ ./
 
+RUN apt-get update
+RUN apt-get -y install postgresql-client
+
+RUN chmod +x wait-for-postgres.sh
+
 RUN go mod download
-RUN go build -o project ./cmd/main.go
+RUN go build -o api ./cmd/main.go
 
-EXPOSE 9092
+EXPOSE 8000
 
-CMD ["./project"]
+CMD ["./api"]

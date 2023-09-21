@@ -50,7 +50,59 @@ func (r *mutationResolver) CreateUser(ctx context.Context, input model.CreateUse
 
 // UpdateUser is the resolver for the updateUser field.
 func (r *mutationResolver) UpdateUser(ctx context.Context, id string, input model.UpdateUserInput) (*model.User, error) {
-	panic(fmt.Errorf("not implemented: UpdateUser - updateUser"))
+	idInt, err := strconv.Atoi(id)
+	if err != nil {
+		logrus.Error(err.Error())
+		return nil, err
+	}
+
+	tmpUser, err := r.repo.GetById(idInt)
+	if err != nil {
+		logrus.Error(err.Error())
+		return nil, err
+	}
+
+	if input.Name != nil {
+		tmpUser.Name = *input.Name
+	}
+
+	if input.Surname != nil {
+		tmpUser.Surname = *input.Surname
+	}
+
+	if input.Patronymic != nil {
+		tmpUser.Patronymic = *input.Patronymic
+	}
+
+	if input.Age != nil {
+		tmpUser.Age = *input.Age
+	}
+
+	if input.Gender != nil {
+		tmpUser.Gender = *input.Gender
+	}
+
+	if input.Nationality != nil {
+		tmpUser.Nationality = *input.Nationality
+	}
+
+	err = r.repo.Update(idInt, tmpUser)
+	if err != nil {
+		logrus.Error(err.Error())
+		return nil, err
+	}
+
+	user := model.User{
+		ID:          id,
+		Name:        tmpUser.Name,
+		Surname:     tmpUser.Surname,
+		Patronymic:  &tmpUser.Patronymic,
+		Age:         &tmpUser.Age,
+		Gender:      &tmpUser.Gender,
+		Nationality: &tmpUser.Nationality,
+	}
+
+	return &user, nil
 }
 
 // DeleteUser is the resolver for the deleteUser field.

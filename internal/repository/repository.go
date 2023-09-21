@@ -2,8 +2,11 @@ package repository
 
 import (
 	"EffectiveMobile/entity"
+	"github.com/go-redis/redis/v8"
 	"github.com/jmoiron/sqlx"
 )
+
+//go:generate mockgen -source=repository.go -destination=mocks/mock.go
 
 const usersTable = "users"
 
@@ -19,8 +22,9 @@ type Repository struct {
 	User
 }
 
-func NewRepository(db *sqlx.DB) *Repository {
+func NewRepository(db *sqlx.DB, client *redis.Client) *Repository {
+	cache := NewRedisRepository(client)
 	return &Repository{
-		User: NewUserPostgres(db),
+		User: NewUserPostgres(db, cache),
 	}
 }

@@ -2,9 +2,12 @@ port: "8000"
 
 db:
   username: "postgres"
-  host: "localhost"
+  host: "db"
   port: "5432"
   dbname: "postgres"
   sslmode: "disable"
+
+redis:
+  addr: "redis:6379"
 
 brokerAddr: "127.0.0.1:9092"

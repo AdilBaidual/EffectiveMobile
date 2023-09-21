@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  api:
+    container_name: api
+    build:
+      context: .
+      dockerfile: Dockerfile
+#    command: ./wait-for-postgres.sh db ./api
+    ports:
+      - 8000:8000
+      - 9092:9092
+    depends_on:
+      - db
+      - redis
+    environment:
+      - DB_PASSWORD=12345
+
+  db:
+    restart: always
+    container_name: db
+    image: postgres
+    volumes:
+      - ./pg_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=12345
+    ports:
+      - 5432:5432
+
+  redis:
+    container_name: redis
+    image: redis
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    ports:
+      - 6379:6379
+
+volumes:
+  pg_data:

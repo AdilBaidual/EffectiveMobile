@@ -22,7 +22,7 @@ func NewKafkaMessageProcessor(brokerAddr, topic string, service *service.Service
 	return &KafkaMessageProcessor{Consumer: concumer}, nil
 }
 
-func (kmp *KafkaMessageProcessor) Start(wg sync.WaitGroup) {
+func (kmp *KafkaMessageProcessor) Start(wg *sync.WaitGroup) {
 	defer wg.Done()
 	kmp.Consume()
 }

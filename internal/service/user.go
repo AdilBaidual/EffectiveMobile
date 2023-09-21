@@ -80,7 +80,7 @@ func (s *UserService) EnrichUser(fio entity.Fio) (int, error) {
 
 	fmt.Println("User after enrich: ", user)
 
-	id, err := s.CreateUser(user)
+	id, err := s.repo.Create(user)
 
 	return id, err
 }
@@ -228,7 +228,7 @@ func (s *UserService) GetUsers(options entity.Options) ([]entity.User, error) {
 	offset := (options.Page - 1) * options.PerPage
 	query := fmt.Sprintf("SELECT * FROM users WHERE age >= %d AND age <= %d", options.MinAge, options.MaxAge)
 	if options.Gender != "" {
-		query += fmt.Sprintf("AND gender = %s", options.Gender)
+		query += fmt.Sprintf(" AND gender = %s", options.Gender)
 	}
 	query += fmt.Sprintf(" LIMIT %d OFFSET %d", options.PerPage, offset)
 

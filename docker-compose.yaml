@@ -10,6 +10,7 @@ services:
     ports:
       - 8000:8000
       - 9092:9092
+      - 8080:8080
     depends_on:
       - db
       - redis

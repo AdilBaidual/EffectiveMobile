@@ -72,3 +72,6 @@ FIO_FAILED
 ## :hammer: Запуск
 
 docker compose up --build
+
+make migrations-up
+(__необходимо установить go migrate__)
